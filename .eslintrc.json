@@ -1,0 +1,22 @@
+{   
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": "airbnb",
+    "settings": {
+        "ecmascript": 6
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "comma-dangle": "off",
+        "no-console": "off",
+        "indent": 2,
+        "strict": 0,
+        "no-underscore-dangle": 0,
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    }
+}

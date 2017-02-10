@@ -1,0 +1,4 @@
+
+/**
+ * Constant type names
+ */
