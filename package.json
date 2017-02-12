@@ -8,18 +8,23 @@
     "start": "webpack-dev-server",
     "prod": "cross-env NODE_ENV=production webpack-dev-server --env.prod=true",
     "build": "cross-env NODE_ENV=production webpack --env.prod=true",
-    "lint": "eslint ./src ./webpack.config.js -f table || true"
+    "lint": "eslint ./src ./webpack.config.js -f table || true",
+    "test": "jest"
   },
-  "keywords": ["react", "redux", "react-router"],
+  "keywords": [
+    "react",
+    "redux",
+    "react-router"
+  ],
   "author": "Vladislav Taiurskyi",
   "license": "ISC",
   "dependencies": {
-    "normalizr": "^3.1.0",
+    "normalizr": "^3.2.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
-    "react-router-redux": "^4.0.7",
+    "react-router-redux": "^4.0.8",
     "recompose": "^0.22.0",
     "redux": "^3.6.0",
     "redux-saga": "^0.14.3",
@@ -29,6 +34,7 @@
   "devDependencies": {
     "babel-core": "^6.22.1",
     "babel-eslint": "^6.1.2",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -42,13 +48,28 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
+    "expect": "^1.20.2",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
     "html-webpack-plugin": "^2.28.0",
+    "jest": "^18.1.0",
+    "jsdom": "^9.11.0",
     "node-sass": "^4.5.0",
+    "react-addons-test-utils": "^15.4.2",
     "sass-loader": "^5.0.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "bower_components",
+      "shared"
+    ]
   }
 }
