@@ -1,8 +1,13 @@
 {
-  "presets": [["es2015", { "modules": false }], "react"],
+  "presets": ["es2015", "react"],
   "env": {
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
     }
   },
   "plugins": ["transform-runtime", "transform-class-properties"]

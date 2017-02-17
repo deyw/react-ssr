@@ -1,7 +1,8 @@
-{   
+{
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "es6": true
     },
     "extends": "airbnb",
     "settings": {
@@ -12,11 +13,29 @@
         "react"
     ],
     "rules": {
-        "comma-dangle": "off",
-        "no-console": "off",
+        "comma-dangle": 0,
+        "no-console": 0,
         "indent": 2,
         "strict": 0,
         "no-underscore-dangle": 0,
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "react/jsx-filename-extension": [1, {
+            "extensions": [".js", ".jsx"]
+        }],
+        "import/no-extraneous-dependencies": [
+            "error", 
+            {
+                "devDependencies": false,
+                "optionalDependencies": false,
+                "peerDependencies": false
+            }
+        ]
+    },
+    "globals": {
+        "__DEV__": true,
+        "__CLIENT__": true,
+        "__SERVER__": true,
+        "__DISABLE_SSR__": true,
+        "__DEVTOOLS__": true,
+        "webpackIsomorphicTools": true
     }
 }
