@@ -3,7 +3,7 @@ import path from 'path';
 
 // Express
 import Express from 'express';
-import favicon from 'serve-favicon';
+// import favicon from 'serve-favicon';
 import { trigger } from 'redial';
 
 // React
@@ -14,6 +14,7 @@ import createMemoryHistory from 'react-router/lib/createMemoryHistory';
 import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
+
 
 // app deps
 import configureStore from './store';
@@ -26,7 +27,7 @@ const port = parseInt(process.env.SSR_PORT, 10);
 
 const app = new Express();
 const server = http.createServer(app);
-app.use(favicon(path.resolve(process.cwd(), './static/favicon.ico')));
+// app.use(favicon(path.resolve(process.cwd(), './static/favicon.ico')));
 app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 app.get('*', (req, res) => {
@@ -97,7 +98,3 @@ server.listen(port, (err) => {
   }
   console.log(`🚀  Web server listening on ${port} in ${process.env.NODE_ENV} mode`);
 });
-
-
-
-

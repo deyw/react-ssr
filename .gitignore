@@ -1,4 +1,5 @@
 node_modules
-yarn.lock
 .vscode
 static
+npm-debug.log
+.happypack
