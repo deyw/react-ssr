@@ -5,16 +5,25 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from '../reducers';
 import sagas from '../sagas';
 
-export default function configureStore(history: any, initialSTate: Object) {
+export default function configureStore(history: any, initialState: Object) {
   const sagaMiddleware = createSagaMiddleware(sagas);
   const reduxRouterMiddleware = routerMiddleware(history);
   const middlewares: Array<void> = [sagaMiddleware, reduxRouterMiddleware];
-  // const enhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && __REDUX_DEVTOOLS_EXTENSION__();
 
-  const store = createStore(reducers, initialSTate, compose(
-    applyMiddleware(...middlewares)
-    // enhancer
-  ));
+  
+  const composeEnhancers =
+    typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ 
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      }) 
+      : compose;
+
+  const enhancer = composeEnhancers(
+    applyMiddleware(...middlewares),
+      // other store enhancers if any
+  );
+
+  const store = createStore(reducers, initialState, enhancer);
 
   declare var module: {
     hot: {
