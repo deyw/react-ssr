@@ -2,7 +2,6 @@ const Express = require('express');
 const webpack = require('webpack');
 const devMiddleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
-const debug = require('debug');
 
 const config = require('./config.js');
 const devConfig = require('./webpack.dev.config');
@@ -19,7 +18,7 @@ const serverOptions = {
   serverSideRender: true,
   lazy: false,
   stats: { colors: true },
-  publicPath: '...'
+  publicPath: devConfig.output.publicPath
 };
 
 const app = Express();
@@ -29,8 +28,8 @@ app.use(hotMiddleware(compiler, serverOptions));
 /* eslint-disable */
 app.listen(config.HMR_PORT, function onAppListening(err) {
   if (err) {
-    debug(err);
+    console.error(err);
   } else {
-    debug('==> 🚧  Webpack development server listening on port %s', config.HMR_PORT);
+    console.info('🚧  Webpack development server listening on port %s', config.HMR_PORT);
   }
 });
