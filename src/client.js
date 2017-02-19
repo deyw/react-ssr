@@ -5,12 +5,12 @@ import { AppContainer } from 'react-hot-loader';
 import Router from 'react-router/lib/Router';
 import match from 'react-router/lib/match';
 import browserHistory from 'react-router/lib/browserHistory';
-import applyRouterMiddleware from 'react-router/lib/applyRouterMiddleware';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { trigger } from 'redial';
 
-import ReactHotLoader from './components/ReactHotLoader';
-import getRoutes from './routes';
+import { syncHistoryWithStore } from 'react-router-redux';
+
+
+
+
 import configureStore from './store';
 
 const initialState = window.__INITIAL_STATE__;

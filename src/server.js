@@ -4,16 +4,17 @@ import path from 'path';
 // Express
 import Express from 'express';
 // import favicon from 'serve-favicon';
-import { trigger } from 'redial';
+// import { trigger } from 'redial';
 
 // React
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import match from 'react-router/lib/match';
 import createMemoryHistory from 'react-router/lib/createMemoryHistory';
-import RouterContext from 'react-router/lib/RouterContext';
+// import RouterContext from 'react-router/lib/RouterContext';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
 
 
 // app deps
@@ -36,7 +37,7 @@ app.get('*', (req, res) => {
   }
 
   const memoryHistory = createMemoryHistory(req.originalUrl);
-  const location = memoryHistory.createLocation(req.originalUrl);
+  // const location = memoryHistory.createLocation(req.originalUrl);
   const store = configureStore(memoryHistory);
   const history = syncHistoryWithStore(memoryHistory, store);
 
@@ -50,29 +51,35 @@ app.get('*', (req, res) => {
     return;
   }
 
-  match({ history, routes: getRoutes(store), location }, (error, redirectLocation, renderProps) => {
+  const matchParams = {
+    history,
+    routes: getRoutes(store),
+    location: req.originalUrl,
+  };
+
+  match(matchParams, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
-      const { dispatch, getState } = store;
+      // const { dispatch, getState } = store;
 
-      const locals = {
-        path: renderProps.location.pathname,
-        query: renderProps.location.query,
-        params: renderProps.params,
-        dispatch,
-        getState
-      };
+      // const locals = {
+      //   path: renderProps.location.pathname,
+      //   query: renderProps.location.query,
+      //   params: renderProps.params,
+      //   dispatch,
+      //   getState
+      // };
 
-      const { components } = renderProps;
+      // const { components } = renderProps;
 
-      trigger('fetch', components, locals).then(() => {
+      loadOnServer({ ...renderProps, store }).then(() => {
         const component = (
           <Provider store={store} key="provider">
-            <RouterContext {...renderProps} />
+            <ReduxAsyncConnect {...renderProps} />
           </Provider>
         );
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 export default props => (
-    <div>
-      Hello, React!
+  <div>
+      Hello, World!
       {props.children}
-    </div>
+  </div>
 );

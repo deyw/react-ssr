@@ -32,7 +32,7 @@ module.exports = {
         loaders: ['babel-loader', 'eslint-loader']
       },
       {
-        test: /^(?!.*\.critical).*\.scss$/,
+        test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
