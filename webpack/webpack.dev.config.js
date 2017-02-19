@@ -1,10 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-const HappyPack = require('happypack');
-
+// const HappyPack = require('happypack');
 const config = require('./config.js');
 const isomorphicConfig = require('./isomorphic.config');
+
+// const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig).development();
@@ -18,7 +19,7 @@ module.exports = {
   entry: {
     main: [
       'react-hot-loader/patch',
-      `webpack-hot-middleware/client?reload=true
+      `webpack-hot-middleware/client?reload=false
        &path=http://localhost:${config.HMR_PORT}/__webpack_hmr`,
       path.join(config.SRC_DIR, 'client.js')
     ]
@@ -31,7 +32,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
-    modules: ['src', 'node_modules']
+    modules: ['src', 'static', 'node_modules']
   },
   module: {
     rules: [
@@ -42,15 +43,20 @@ module.exports = {
       // },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          presets: ['es2015', 'stage-3', 'react'],
+          plugins: ['react-hot-loader/babel'],
+          ignore: /node_modules/,
+          babelrc: false
+        }
       },
-        { test: /\.json$/, loader: 'json-loader' },
-        { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-        { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
-        { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
-        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
-        { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=image/svg+xml' },
+      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
     ],
     noParse: /\.min\.js/
   },
@@ -66,22 +72,22 @@ module.exports = {
       __CLIENT__: true,
       __SERVER__: false,
     }),
-    new HappyPack({
-      id: 'jsx',
-      threads: 4,
-      loaders: [{
-        path: 'babel-loader',
-        query: {
-          babelrc: false,
-          // plugins: [
-          //   'transform-runtime'
-          // ],
-          presets: ['react', 'stage-3', ['latest', { es2015: { modules: false } }]],
-          plugins: ['react-hot-loader/babel'],
-          cacheDirectory: false
-        }
-      }]
-    }),
+    // new HappyPack({
+    //   debug: true,
+    //   id: 'jsx',
+    //   threadPool: happyThreadPool,
+    //   loaders: [{
+    //     path: 'babel-loader',
+    //     query: {
+    //       babelrc: false,
+    //       presets: ['react', 'stage-3', ['latest', { es2015: { modules: false } }]],
+    //       cacheDirectory: true,
+    //       plugins: ['react-hot-loader/babel', 'transform-react-jsx-source'],
+    //     }
+    //   }],
+    //   cache: true,
+    //   verbose: true
+    // }),
     webpackIsomorphicToolsPlugin,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

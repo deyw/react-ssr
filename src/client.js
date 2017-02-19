@@ -7,10 +7,6 @@ import match from 'react-router/lib/match';
 import browserHistory from 'react-router/lib/browserHistory';
 
 import { syncHistoryWithStore } from 'react-router-redux';
-
-
-
-
 import configureStore from './store';
 
 const initialState = window.__INITIAL_STATE__;
