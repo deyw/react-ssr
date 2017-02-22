@@ -13,7 +13,7 @@ var happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 module.exports = {
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, include: [path.resolve(__dirname, '..')], loaders: ['babel-loader', 'eslint-loader']},
+      { test: /\.js$/, exclude: /node_modules/, include: [path.resolve(__dirname, '..')], loaders: ['happypack/loader?id=jsx']},
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.sass$/, loader: 'style-loader!css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader!sass-loader?precision=10&indentedSyntax=sass' },
       { test: /\.scss$/, loader: 'style-loader!css?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader' },
@@ -43,7 +43,11 @@ module.exports = {
     // new HappyPack({ id: 'jsx',  enabled: true, threadPool: happyThreadPool, }),
     // new HappyPack({ id: 'scss',  enabled: true, threadPool: happyThreadPool, }),
     // new HappyPack({ id: 'css',  enabled: true, threadPool: happyThreadPool, }),
-
+    new HappyPack({
+      id: 'jsx',
+      loaders: ['babel-loader', 'eslint-loader'],
+      threadPool: happyThreadPool
+    }),
     new SvgStore(),
 
     // hot reload

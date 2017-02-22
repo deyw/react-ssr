@@ -1,11 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-// const HappyPack = require('happypack');
+const HappyPack = require('happypack');
 const config = require('./config.js');
 const isomorphicConfig = require('./isomorphic.config');
 
-// const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
+const happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 const webpackIsomorphicToolsPlugin =
   new WebpackIsomorphicToolsPlugin(isomorphicConfig).development();
@@ -36,21 +36,21 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   test: /\.jsx?$/,
-      //   exclude: /node_modules/,
-      //   loader: 'happypack/loader?id=jsx'
-      // },
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['es2015', 'stage-3', 'react'],
-          plugins: ['react-hot-loader/babel'],
-          ignore: /node_modules/,
-          babelrc: false
-        }
+        exclude: /node_modules/,
+        loaders: ['happypack/loader?id=jsx']
       },
+      // {
+      //   test: /\.jsx?$/,
+      //   loader: 'babel-loader',
+      //   options: {
+      //     presets: ['es2015', 'stage-3', 'react'],
+      //     plugins: ['react-hot-loader/babel'],
+      //     ignore: /node_modules/,
+      //     babelrc: false
+      //   }
+      // },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url-loader?limit=10000&mimetype=application/octet-stream' },
@@ -71,6 +71,11 @@ module.exports = {
       __DISABLE_SSR__: false,
       __CLIENT__: true,
       __SERVER__: false,
+    }),
+    new HappyPack({
+      id: 'jsx',
+      loaders: ['babel-loader', 'eslint-loader'],
+      threadPool: happyThreadPool
     }),
     // new HappyPack({
     //   debug: true,
