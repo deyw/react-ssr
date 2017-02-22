@@ -18,14 +18,18 @@ const renderApp = () => {
   const routes = require('./routes').default(store);
 
   // Sync routes both on client and server
-  match({ history, routes }, (error, redirectLocation, renderProps) => {
+  match({ routes, history }, () => {
     render(
       <AppContainer>
-        <Provider store={store}>
-          <Router {...renderProps} />
+        <Provider store={store} key="provider">
+          <Router
+            history={history}
+          >
+            {routes}
+          </Router>
         </Provider>
       </AppContainer>,
-      mountNode,
+      mountNode
     );
   });
 };

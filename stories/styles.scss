@@ -1,0 +1,9 @@
+.btn {
+  border-radius: 5px;
+  background-color: #ddd;
+  border-color: blue;
+  &:hover {
+    background-color: blue;
+    color: whitesmoke;
+  }
+}
