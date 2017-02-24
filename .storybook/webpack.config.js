@@ -12,37 +12,34 @@ var happyThreadPool = HappyPack.ThreadPool({ size: 5 });
 
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       { test: /\.js$/, exclude: /node_modules/, include: [path.resolve(__dirname, '..')], loaders: ['happypack/loader?id=jsx']},
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.sass$/, loader: 'style-loader!css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader!sass-loader?precision=10&indentedSyntax=sass' },
-      { test: /\.scss$/, loader: 'style-loader!css?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader' },
-      { test: /\.css$/, loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss' },
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
+      { test: /\.scss$/, loader: 'style-loader!css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader' },
+      { test: /\.css$/, loader: 'style-loader!css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]_[hash:base64:5]!postcss-loader' },
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" },
       { test: /\.png$/, loader: "url-loader?limit=100000"},
       { test: /\.jpg$/, loader: "url-loader?limit=100000"},
     ]
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
-    root: path.resolve(__dirname, '..'),
-    modulesDirectories: [
+    extensions: ['.js', '.jsx'],
+    modules: [
+      path.resolve(__dirname, '..'),
       'src',
       'static',
       'node_modules'
     ],
   },
-
-  progress: true,
-
   plugins: [
-    // new HappyPack({ id: 'jsx',  enabled: true, threadPool: happyThreadPool, }),
-    // new HappyPack({ id: 'scss',  enabled: true, threadPool: happyThreadPool, }),
-    // new HappyPack({ id: 'css',  enabled: true, threadPool: happyThreadPool, }),
+    new webpack.DefinePlugin({
+        __HELLO__: JSON.stringify('Hello, World!'),
+        __WORLD__: JSON.stringify('world'),
+        __STORY_BOOK__: JSON.stringify(`${process.env.STORY_BOOK}`)
+    }),
     new HappyPack({
       id: 'jsx',
       loaders: ['babel-loader', 'eslint-loader'],
@@ -52,9 +49,5 @@ module.exports = {
 
     // hot reload
     new webpack.IgnorePlugin(/webpack-stats\.json$/, /moment$/),
-    new webpack.DefinePlugin({
-      __STATIC_SERVER_URL__: `'${process.env.STATIC_SERVER_URL}'`,
-      __ELASTIC_URL__: `'${process.env.ELASTIC_URL}'`,
-    }),
   ],
 };

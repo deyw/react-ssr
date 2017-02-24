@@ -89,6 +89,9 @@
         "__SERVER__": true,
         "__DISABLE_SSR__": true,
         "__DEVTOOLS__": true,
+        "__HELLO__": true,
+        "__WORLD__": true,
+        "__STORY_BOOK__": true,
         "webpackIsomorphicTools": true
     }
 }
